@@ -1,5 +1,7 @@
 # watchtowerobservability/sdk
 
+[![CI](https://github.com/watchtowerobservability/watchtower-php/actions/workflows/ci.yml/badge.svg)](https://github.com/watchtowerobservability/watchtower-php/actions/workflows/ci.yml)
+
 Thin Watchtower distribution over the OpenTelemetry PHP SDK: `Authorization: Bearer` key header, endpoint default, `wt.*`-safe attributes, redaction hook, offline buffer.
 
 Status: 0.x, early. APIs may change between minor versions.

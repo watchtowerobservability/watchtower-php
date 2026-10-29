@@ -22,11 +22,16 @@ final class Config
         $this->endpoint = rtrim($endpoint ?? self::DEFAULT_ENDPOINT, '/');
     }
 
-    /** Reads WT_ENDPOINT and WT_INGEST_KEY. */
+    /** Reads WT_OTLP_ENDPOINT (WT_ENDPOINT is a deprecated alias), WT_INGEST_KEY, WT_SERVICE, WT_ENVIRONMENT, WT_RELEASE. */
     public static function fromEnv(string $service, array $resource = [], mixed $redactor = null): self
     {
-        $e = getenv('WT_ENDPOINT');
+        $e = getenv('WT_OTLP_ENDPOINT') ?: getenv('WT_ENDPOINT');
         $k = getenv('WT_INGEST_KEY');
+        $service = getenv('WT_SERVICE') ?: $service;
+        $resource += array_filter([
+            'deployment.environment.name' => getenv('WT_ENVIRONMENT') ?: null,
+            'service.version' => getenv('WT_RELEASE') ?: null,
+        ]);
         return new self($service, $e === false || $e === '' ? null : $e, $k === false || $k === '' ? null : $k, $resource, $redactor);
     }
 
