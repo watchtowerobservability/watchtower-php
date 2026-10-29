@@ -20,7 +20,7 @@ jobs:
       - run: composer install --no-interaction
       - run: vendor/bin/phpunit tests
       - run: git archive --format=zip -o watchtower-php-$GITHUB_REF_NAME.zip HEAD
-      - uses: actions/attest-build-provenance@v2
+      - uses: actions/attest-build-provenance@v4
         with:
           subject-path: 'watchtower-php-*.zip'
       - name: GitHub release
