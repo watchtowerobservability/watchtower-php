@@ -49,7 +49,7 @@ final class SignalsTest extends TestCase
         $out = [];
         foreach (file($this->log, FILE_IGNORE_NEW_LINES) ?: [] as $line) {
             [$path, $auth, $body] = explode(' ', $line);
-            $out[] = [$path, str_replace('_', ' ', $auth), (string) base64_decode($body)];
+            $out[] = [$path, preg_replace('/^Bearer_/', 'Bearer ', $auth), (string) base64_decode($body)];
         }
         return $out;
     }
