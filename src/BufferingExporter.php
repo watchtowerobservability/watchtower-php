@@ -7,12 +7,16 @@ namespace Watchtower;
 use OpenTelemetry\SDK\Common\Future\CancellationInterface;
 use OpenTelemetry\SDK\Common\Future\CompletedFuture;
 use OpenTelemetry\SDK\Common\Future\FutureInterface;
+use OpenTelemetry\SDK\Logs\LogRecordExporterInterface;
 use OpenTelemetry\SDK\Trace\SpanExporterInterface;
 
-/** Wraps the OTLP exporter; batches that fail are retried with the next export. */
-final class BufferingExporter implements SpanExporterInterface
+/** Wraps the OTLP span or log record exporter; batches that fail are retried with the next export. */
+final class BufferingExporter implements SpanExporterInterface, LogRecordExporterInterface
 {
-    public function __construct(private readonly SpanExporterInterface $inner, private readonly OfflineBuffer $buffer)
+    public function __construct(
+        private readonly SpanExporterInterface|LogRecordExporterInterface $inner,
+        private readonly OfflineBuffer $buffer,
+    )
     {
     }
 
